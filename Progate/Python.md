@@ -5,7 +5,7 @@
 |Python II|済|
 |Python III|済|
 |Python I~III問題集|済|
-|Python I~III問題集 道場||
+|Python I~III問題集 道場|済|
 |Python IV|済|
 |Python V|済|
 
