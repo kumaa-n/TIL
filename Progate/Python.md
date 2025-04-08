@@ -8,3 +8,5 @@
 |Python I~III問題集 道場||
 |Python IV|済|
 |Python V|済|
+
+全て完了しました！
