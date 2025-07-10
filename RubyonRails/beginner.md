@@ -4,14 +4,37 @@
 ### CRUD機能を一回で作成(Create,Read,Update,Delete)
 ※ただし実務ではあまり使用されない
 ```
-docker compose exec コンテナ名 bin/rails generate scaffold モデル名 [カラム名:型] 
+docker compose exec コンテナ名 bin/rails generate scaffold モデル名 [カラム名:型]
 例：docker compose exec web bin/rails generate scaffold user name:string age:integer
 ```
 
 ### genarate
+
+[Raisガイド](https://railsguides.jp/active_record_migrations.html)
+
 ```
 # マイグレーションファイルの生成
-docker compose exec コンテナ名 rails generate migration マイグレーション名 
+docker compose exec コンテナ名 rails generate migration マイグレーション名
+
+# こんな感じで作成される
+docker compose exec web bin/rails generate migration CreateArticles title:string body:text
+class CreateArticles < ActiveRecord::Migration[7.2]
+  def change
+    create_table :articles do |t|
+      t.string :title, null: false, default: '記事のタイトル'
+      t.text :body
+      t.timestamps
+    end
+  end
+end
+
+# カラムを追加したい時の例
+docker compose exec web bin/rails generate migration AddTelToUsers tel:string
+class AddTelToUsers < ActiveRecord::Migration[7.0]
+  def change
+    add_column :users, :tel, :string
+  end
+end
 ```
 
 ### DB
@@ -34,20 +57,59 @@ docker compose exec コンテナ名 rails db:rollback
 ```
 
 ## Rails記法
-アクション実行前に何かを行いたい時
+
+### アクション
+
 ```
+＃ 実行前に何かを行いたい時
 before_action :メソッド名, only: %i[ show edit ]
 before_action :メソッド名, only: :index
 ```
 
-アクション実行後に何かを行いたい時
 ```
+# 実行後に何かを行いたい時
 after_action :メソッド名, only: %i[ show edit ]
 after_action :メソッド名, only: :index
 ```
 
+### バリデーション
+```
+class User < ApplicationRecord
+  # 再確認
+  validates :password, confirmation: true
+
+  ＃ フォーマット
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  ＃　文字列の長さ
+  validates :username, length: { minimum: 3, maximum: 20 }
+
+  ＃　数値チェック
+  validates :age, numericality: { only_integer: true }
+
+  # 空でないかチェック
+  validates :username, presence: true
+
+  # 重複していないかチェック
+  validates :email, uniqueness: true
+end
+```
+
+### アソシエーション
+```
+- belongs_to：モデルが他のモデルに従属する場合に使用。例：BookモデルがAuthorに属する。
+- has_one：一方のモデルが他方のモデルを所有する場合に使用。例：SupplierがAccountを持つ。
+- has_many：モデルが複数の他モデルを所有する場合に使用。例：Authorが複数のBookを持つ。
+- has_many :through：中間モデルを介して多対多の関係を設定。例：Physicianがappointmentsを通じてPatientと関係する。
+- has_one :through：中間モデルを介して一対一の関係を設定。例：SupplierがAccountを通じてAccountHistoryと関係する。
+- has_and_belongs_to_many：中間モデルなしで多対多の関係を設定。例：AssemblyとPartが互いに多対多の関係を持つ。
+
+belongs_toとhas_oneの選択は外部キーの位置によって決まり、has_many :throughとhas_and_belongs_to_manyの選択は中間モデルの必要性によって決まります。
+```
+
 ## ActiveRecord
 [createメソッドとnew + saveメソッドの違い](https://qiita.com/yamato1491038/items/d4045812a65d9eb98348)
+
 ### new,create
 ```
 # saveの際にtrue,falseを返すことができる
