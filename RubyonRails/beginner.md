@@ -32,3 +32,42 @@ before_action :メソッド名, only: :index
 after_action :メソッド名, only: %i[ show edit ]
 after_action :メソッド名, only: :index
 ```
+
+## ActiveRecord
+[createメソッドとnew + saveメソッドの違い](https://qiita.com/yamato1491038/items/d4045812a65d9eb98348)
+### new,create
+```
+# saveの際にtrue,falseを返すことができる
+user = User.new(name: "test", email: "test@xxx.com")
+user.save
+```
+
+### create
+```
+# new+saveに近い
+user = User.create(name: "test", email: "test@xxx.com")
+```
+
+### find,find_by,where
+[find、find_by、whereの違い](https://qiita.com/tsuchinoko_run/items/f3926caaec461cfa1ca3)
+[【Rails】find・find_by・whereについてまとめてみた](https://qiita.com/nakayuu07/items/3d5e2f8784b6f18186f2)
+```
+# ID(主キー)を使ってレコードを取得
+user = User.find(1)
+
+# 条件を指定し、一致する最初のレコードを取得 
+user = User.find_by(name: "test", email: "test@xxx.com")
+
+# 条件を指定し、一致する全てのレコードを取得
+users = User.where(name: "test")
+```
+
+### コールバック
+```
+1.before_validation: バリデーションが実行される前に呼び出される
+2.after_validation: バリデーションが実行された後に呼び出される
+3.before_save: レコードが保存される前に呼び出される
+4.after_save: レコードが保存された後に呼び出される
+5.before_destroy: レコードが削除される前に呼び出される
+6.after_destroy: レコードが削除された後に呼び出される
+```
