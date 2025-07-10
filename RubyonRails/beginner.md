@@ -50,6 +50,7 @@ user = User.create(name: "test", email: "test@xxx.com")
 
 ### find,find_by,where
 [find、find_by、whereの違い](https://qiita.com/tsuchinoko_run/items/f3926caaec461cfa1ca3)
+
 [【Rails】find・find_by・whereについてまとめてみた](https://qiita.com/nakayuu07/items/3d5e2f8784b6f18186f2)
 ```
 # ID(主キー)を使ってレコードを取得
