@@ -8,10 +8,23 @@ docker compose exec コンテナ名 bin/rails generate scaffold モデル名 [�
 例：docker compose exec web bin/rails generate scaffold user name:string age:integer
 ```
 
-### DBマイグレーションの状況を確認
+### genarate
 ```
+# マイグレーションファイルの生成
+docker compose exec コンテナ名 rails generate migration マイグレーション名 
+```
+
+### DB
+```
+# マイグレーションファイルの適用状況
 docker compose exec コンテナ名 bin/rails db:migrate:status
 例：docker compose exec web bin/rails db:migrate:status
+
+# drop,create,migrateの順に実行
+docker compose exec コンテナ名 rails db:migrate:reset
+
+# 最新のマイグレーションファイルを一つロールバック
+docker compose exec コンテナ名 rails db:rollback
 ```
 
 ## ルーティングの確認方法
@@ -71,4 +84,14 @@ users = User.where(name: "test")
 4.after_save: レコードが保存された後に呼び出される
 5.before_destroy: レコードが削除される前に呼び出される
 6.after_destroy: レコードが削除された後に呼び出される
+```
+
+## その他
+```
+# rails db:migrate、 rails db:rollback コマンドは基本的に開発環境・テスト環境どちらの環境にも実行されますが、
+# 時折テスト環境にコマンドが実行されないことがあります。そうした際はコマンドの後ろに RAILS_ENV=test を付けて
+# テスト環境にコマンドを実行することを明示してください。
+docker compose exec web rails db:migrate:status RAILS_ENV=test
+docker compose exec web rails db:migrate RAILS_ENV=test
+docker compose exec web rails db:rollback RAILS_ENV=test
 ```
