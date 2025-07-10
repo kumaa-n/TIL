@@ -26,3 +26,9 @@ docker compose exec コンテナ名 bin/rails db:migrate:status
 before_action :メソッド名, only: %i[ show edit ]
 before_action :メソッド名, only: :index
 ```
+
+アクション実行後に何かを行いたい時
+```
+after_action :メソッド名, only: %i[ show edit ]
+after_action :メソッド名, only: :index
+```
