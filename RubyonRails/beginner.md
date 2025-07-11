@@ -107,6 +107,31 @@ end
 belongs_toとhas_oneの選択は外部キーの位置によって決まり、has_many :throughとhas_and_belongs_to_manyの選択は中間モデルの必要性によって決まります。
 ```
 
+### ルーティング
+
+#### resources
+
+|Helper|HTTP verb|Path|コントローラー#アクション|
+|---|---|---|---|
+|posts_path|GET|/posts|posts#index|
+|new_post_path|GET|/posts/new|posts#new|
+|posts_path|POST|/posts|posts#create|
+|post_path|GET|/posts/:id|posts#show|
+|edit_post_path|GET|/posts/:id/edit|posts#edit|
+|post_path|PATCH or PUT|/posts/:id|posts#update|
+|post_path|DELETE|/posts/:id|posts#destroy|
+
+#### resource
+
+|Helper|HTTP verb|Path|コントローラー#アクション|
+|---|---|---|---|
+|new_geocoder_path|GET|/geocoder/new|geocoders#new|
+|geocoder_path|POST|/geocoder|geocoders#create|
+|geocoder_path|GET|/geocoder|geocoders#show|
+|edit_geocoder_path|GET|/geocoder/edit|geocoders#edit|
+|geocoder_path|PATCH or PUT|/geocoder/|geocoders#update|
+|geocoder_path|DELETE|/geocoder/|geocoders#destroy/|
+
 ## ActiveRecord
 [createメソッドとnew + saveメソッドの違い](https://qiita.com/yamato1491038/items/d4045812a65d9eb98348)
 
